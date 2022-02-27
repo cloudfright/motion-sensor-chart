@@ -5,32 +5,55 @@
   <script type="text/javascript" src="scripts/smoothie.js"></script>
   <script type="text/javascript">
 
-    var series1 = new TimeSeries();
-    var series2 = new TimeSeries();
-    var series3 = new TimeSeries();
+    var gyroSeries1 = new TimeSeries();
+    var gyroSeries2 = new TimeSeries();
+    var gyroSeries3 = new TimeSeries();
 
-    /*
-    // Randomly add a data point every 500ms
-    setInterval(function () {
-      var now = Date.now();
-      var val = Math.random() * 100;
-      series1.append(now, val);
-    }, 500);
-*/
+    var accellSeries1 = new TimeSeries();
+    var accellSeries2 = new TimeSeries();
+    var accellSeries3 = new TimeSeries();
+
+    var accellGravitySeries1 = new TimeSeries();
+    var accellGravitySeries2  = new TimeSeries();
+    var accellGravitySeries3  = new TimeSeries();
+
+
     function createTimeline() {
 
-      var chart = new SmoothieChart({ responsive: true });
-      chart.addTimeSeries(series1, { strokeStyle: 'rgba(255, 0, 0, 1)', fillStyle: 'rgba(255, 0, 0, 0.2)', lineWidth: 4 });
-      chart.addTimeSeries(series2, { strokeStyle: 'rgba(0, 255, 0, 1)', fillStyle: 'rgba(0, 255, 0, 0.2)', lineWidth: 4 });
-      chart.addTimeSeries(series3, { strokeStyle: 'rgba(0, 0, 255, 1)', fillStyle: 'rgba(0, 0, 255, 0.2)', lineWidth: 4 });
-      chart.streamTo(document.getElementById("chart-responsive"), 500);
+      var gyroChart = new SmoothieChart({ responsive: true });
+      gyroChart.addTimeSeries(gyroSeries1, { strokeStyle: 'rgba(255, 0, 0, 1)', fillStyle: 'rgba(255, 0, 0, 0.2)', lineWidth: 3 });
+      gyroChart.addTimeSeries(gyroSeries2, { strokeStyle: 'rgba(0, 255, 0, 1)', fillStyle: 'rgba(0, 255, 0, 0.2)', lineWidth: 3 });
+      gyroChart.addTimeSeries(gyroSeries3, { strokeStyle: 'rgba(0, 0, 255, 1)', fillStyle: 'rgba(0, 0, 255, 0.2)', lineWidth: 3 });
+      gyroChart.streamTo(document.getElementById("gryo-chart"), 500);
+
+      var accellChart = new SmoothieChart({ responsive: true });
+      accellChart.addTimeSeries(accellSeries1, { strokeStyle: 'rgba(255, 0, 0, 1)', fillStyle: 'rgba(255, 0, 0, 0.2)', lineWidth: 3 });
+      accellChart.addTimeSeries(accellSeries2, { strokeStyle: 'rgba(0, 255, 0, 1)', fillStyle: 'rgba(0, 255, 0, 0.2)', lineWidth: 3 });
+      accellChart.addTimeSeries(accellSeries3, { strokeStyle: 'rgba(0, 0, 255, 1)', fillStyle: 'rgba(0, 0, 255, 0.2)', lineWidth: 3 });
+      accellChart.streamTo(document.getElementById("accel-ng-chart"), 500);
+
+      var accellGravityChart = new SmoothieChart({ responsive: true });
+      accellGravityChart.addTimeSeries(accellGravitySeries1, { strokeStyle: 'rgba(255, 0, 0, 1)', fillStyle: 'rgba(255, 0, 0, 0.2)', lineWidth: 3 });
+      accellGravityChart.addTimeSeries(accellGravitySeries2, { strokeStyle: 'rgba(0, 255, 0, 1)', fillStyle: 'rgba(0, 255, 0, 0.2)', lineWidth: 3 });
+      accellGravityChart.addTimeSeries(accellGravitySeries3, { strokeStyle: 'rgba(0, 0, 255, 1)', fillStyle: 'rgba(0, 0, 255, 0.2)', lineWidth: 3 });
+      accellGravityChart.streamTo(document.getElementById("accel-wg-chart"), 500);
+
     }
   </script>
 </head>
 
 <body onload="createTimeline()" style="background-color:#333333">
   <button onclick="requestPermission()">Request Permission</button>
-  <canvas id="chart-responsive" style="width:100%;height:100px"></canvas>
+
+  <h2>Gyroscope</h2>
+  <canvas id="gryo-chart" style="width:100%;height:200px"></canvas>
+
+  <h2>Accelerometer</h2>
+  <canvas id="accel-ng-chart" style="width:100%;height:200px"></canvas>
+
+  <h2>Accelerometer with gravity</h2>
+  <canvas id="accel-wg-chart" style="width:100%;height:200px"></canvas>
+
 
   <script>
 
@@ -56,10 +79,17 @@
     function handleOrientation(event) {
 
       var now = Date.now();
-      var val = Math.random() * 100;
-      series1.append(now, event.rotationRate.alpha);            
-      series2.append(now, event.rotationRate.beta);            
-      series3.append(now, event.rotationRate.gamma);            
+      gyroSeries1.append(now, event.rotationRate.alpha);            
+      gyroSeries2.append(now, event.rotationRate.beta);            
+      gyroSeries3.append(now, event.rotationRate.gamma);   
+
+      accellSeries1.append(now, event.acceleration.x);            
+      accellSeries2.append(now, event.acceleration.y);            
+      accellSeries3.append(now, event.acceleration.z);            
+
+      accellGravitySeries1.append(now, event.accelerationIncludingGravity.x);            
+      accellGravitySeries2.append(now, event.accelerationIncludingGravity.y);            
+      accellGravitySeries3.append(now, event.accelerationIncludingGravity.z);   
     }
 
   </script>
