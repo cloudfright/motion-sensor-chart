@@ -6,6 +6,8 @@
   <script type="text/javascript">
 
     var series1 = new TimeSeries();
+    var series2 = new TimeSeries();
+    var series3 = new TimeSeries();
 
     /*
     // Randomly add a data point every 500ms
@@ -18,7 +20,9 @@
     function createTimeline() {
 
       var chart = new SmoothieChart({ responsive: true });
-      chart.addTimeSeries(series1, { strokeStyle: 'rgba(0, 255, 0, 1)', fillStyle: 'rgba(0, 255, 0, 0.2)', lineWidth: 4 });
+      chart.addTimeSeries(series1, { strokeStyle: 'rgba(255, 0, 0, 1)', fillStyle: 'rgba(255, 0, 0, 0.2)', lineWidth: 4 });
+      chart.addTimeSeries(series2, { strokeStyle: 'rgba(0, 255, 0, 1)', fillStyle: 'rgba(0, 255, 0, 0.2)', lineWidth: 4 });
+      chart.addTimeSeries(series3, { strokeStyle: 'rgba(0, 0, 255, 1)', fillStyle: 'rgba(0, 0, 255, 0.2)', lineWidth: 4 });
       chart.streamTo(document.getElementById("chart-responsive"), 500);
     }
   </script>
@@ -53,7 +57,9 @@
 
       var now = Date.now();
       var val = Math.random() * 100;
-      series1.append(now, event.rotationRate.alpha, );            
+      series1.append(now, event.rotationRate.alpha);            
+      series2.append(now, event.rotationRate.beta);            
+      series3.append(now, event.rotationRate.gamma);            
     }
 
   </script>
