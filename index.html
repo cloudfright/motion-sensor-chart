@@ -2,6 +2,9 @@
 <html>
 
 <head>
+  <!-- CSS only -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
   <script type="text/javascript" src="scripts/smoothie.js"></script>
   <script type="text/javascript">
 
@@ -14,9 +17,8 @@
     var accellSeries3 = new TimeSeries();
 
     var accellGravitySeries1 = new TimeSeries();
-    var accellGravitySeries2  = new TimeSeries();
-    var accellGravitySeries3  = new TimeSeries();
-
+    var accellGravitySeries2 = new TimeSeries();
+    var accellGravitySeries3 = new TimeSeries();
 
     function createTimeline() {
 
@@ -42,16 +44,29 @@
   </script>
 </head>
 
-<body onload="createTimeline()" style="background-color:#333333">
-  <button onclick="requestPermission()">Request Permission</button>
+<body onload="createTimeline()" style="background-color:#fefefc">
+  <button type="button" class="btn btn-outline-primary btn-sm " onclick="requestPermission()">Request Permission</button>
 
-  <h5 style="color:white">Gyroscope</h5>
+  <h6>Rotation rate
+    <small style="color:red">Alpha</small>
+    <small style="color:green">Beta</small>
+    <small  style="color:blue">Beta</small>
+  </h6>
+
   <canvas id="gryo-chart" style="width:100%;height:100px"></canvas>
 
-  <h5  style="color:white">Accelerometer</h5>
+  <h6>Accelerometer
+    <small style="color:red">x</small>
+    <small style="color:green">y</small>
+    <small  style="color:blue">z</small>
+  </h6>
   <canvas id="accel-ng-chart" style="width:100%;height:100px"></canvas>
 
-  <h5 style="color:white">Accelerometer with gravity</h5>
+  <h6>Accelerometer incl. gravity
+    <small style="color:red">x</small>
+    <small style="color:green">y</small>
+    <small  style="color:blue">z</small>
+  </h6>
   <canvas id="accel-wg-chart" style="width:100%;height:100px"></canvas>
 
 
@@ -79,17 +94,17 @@
     function handleOrientation(event) {
 
       var now = Date.now();
-      gyroSeries1.append(now, event.rotationRate.alpha);            
-      gyroSeries2.append(now, event.rotationRate.beta);            
-      gyroSeries3.append(now, event.rotationRate.gamma);   
+      gyroSeries1.append(now, event.rotationRate.alpha);
+      gyroSeries2.append(now, event.rotationRate.beta);
+      gyroSeries3.append(now, event.rotationRate.gamma);
 
-      accellSeries1.append(now, event.acceleration.x);            
-      accellSeries2.append(now, event.acceleration.y);            
-      accellSeries3.append(now, event.acceleration.z);            
+      accellSeries1.append(now, event.acceleration.x);
+      accellSeries2.append(now, event.acceleration.y);
+      accellSeries3.append(now, event.acceleration.z);
 
-      accellGravitySeries1.append(now, event.accelerationIncludingGravity.x);            
-      accellGravitySeries2.append(now, event.accelerationIncludingGravity.y);            
-      accellGravitySeries3.append(now, event.accelerationIncludingGravity.z);   
+      accellGravitySeries1.append(now, event.accelerationIncludingGravity.x);
+      accellGravitySeries2.append(now, event.accelerationIncludingGravity.y);
+      accellGravitySeries3.append(now, event.accelerationIncludingGravity.z);
     }
 
   </script>
