@@ -22,19 +22,19 @@
 
     function createTimeline() {
 
-      var gyroChart = new SmoothieChart({ responsive: true, scrollBackwards:true });
+      var gyroChart = new SmoothieChart({ responsive: true, scrollBackwards:false });
       gyroChart.addTimeSeries(gyroSeries1, { strokeStyle: 'rgba(255, 0, 0, 1)', fillStyle: 'rgba(255, 0, 0, 0.2)', lineWidth: 3 });
       gyroChart.addTimeSeries(gyroSeries2, { strokeStyle: 'rgba(0, 255, 0, 1)', fillStyle: 'rgba(0, 255, 0, 0.2)', lineWidth: 3 });
       gyroChart.addTimeSeries(gyroSeries3, { strokeStyle: 'rgba(0, 0, 255, 1)', fillStyle: 'rgba(0, 0, 255, 0.2)', lineWidth: 3 });
       gyroChart.streamTo(document.getElementById("gryo-chart"), 500);
 
-      var accellChart = new SmoothieChart({ responsive: true, scrollBackwards:true  });
+      var accellChart = new SmoothieChart({ responsive: true, scrollBackwards:false  });
       accellChart.addTimeSeries(accellSeries1, { strokeStyle: 'rgba(255, 0, 0, 1)', fillStyle: 'rgba(255, 0, 0, 0.2)', lineWidth: 3 });
       accellChart.addTimeSeries(accellSeries2, { strokeStyle: 'rgba(0, 255, 0, 1)', fillStyle: 'rgba(0, 255, 0, 0.2)', lineWidth: 3 });
       accellChart.addTimeSeries(accellSeries3, { strokeStyle: 'rgba(0, 0, 255, 1)', fillStyle: 'rgba(0, 0, 255, 0.2)', lineWidth: 3 });
       accellChart.streamTo(document.getElementById("accel-ng-chart"), 500);
 
-      var accellGravityChart = new SmoothieChart({ responsive: true, scrollBackwards:true  });
+      var accellGravityChart = new SmoothieChart({ responsive: true, scrollBackwards:false  });
       accellGravityChart.addTimeSeries(accellGravitySeries1, { strokeStyle: 'rgba(255, 0, 0, 1)', fillStyle: 'rgba(255, 0, 0, 0.2)', lineWidth: 3 });
       accellGravityChart.addTimeSeries(accellGravitySeries2, { strokeStyle: 'rgba(0, 255, 0, 1)', fillStyle: 'rgba(0, 255, 0, 0.2)', lineWidth: 3 });
       accellGravityChart.addTimeSeries(accellGravitySeries3, { strokeStyle: 'rgba(0, 0, 255, 1)', fillStyle: 'rgba(0, 0, 255, 0.2)', lineWidth: 3 });
@@ -102,9 +102,9 @@
       accellSeries2.append(now, event.acceleration.y);
       accellSeries3.append(now, event.acceleration.z);
 
-      accellGravitySeries1.append(now, event.accelerationIncludingGravity.x);
-      accellGravitySeries2.append(now, event.accelerationIncludingGravity.y);
-      accellGravitySeries3.append(now, event.accelerationIncludingGravity.z);
+      accellGravitySeries1.append(now, event.accelerationIncludingGravity.x - event.acceleration.x);
+      accellGravitySeries2.append(now, event.accelerationIncludingGravity.y - event.acceleration.y);
+      accellGravitySeries3.append(now, event.accelerationIncludingGravity.z - event.acceleration.z);
     }
 
   </script>
