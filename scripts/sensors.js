@@ -53,7 +53,6 @@ function createTimeline() {
 
     smoothAx = new ExponentialMovingAverage(0.7);
 
-
     var accellGravityChart = new SmoothieChart({ responsive: true, scrollBackwards: false });
     accellGravityChart.addTimeSeries(accellGravitySeries1, { strokeStyle: 'rgba(255, 0, 0, 1)', fillStyle: 'rgba(255, 0, 0, 0.2)', lineWidth: 3 });
     accellGravityChart.addTimeSeries(accellGravitySeries2, { strokeStyle: 'rgba(0, 255, 0, 1)', fillStyle: 'rgba(0, 255, 0, 0.2)', lineWidth: 3 });
@@ -92,7 +91,7 @@ function handleOrientation(event) {
   smoothAx.update(event.acceleration.x);
 
   accellSeries1.append(now, event.acceleration.x);
-  accellSeries2.append(now, smoothAx.filtered());
+  accellSeries2.append(now, smoothAx.filtered);
   // accellSeries2.append(now, event.acceleration.y);
   accellSeries3.append(now, event.acceleration.z);
 
