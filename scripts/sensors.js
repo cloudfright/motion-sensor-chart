@@ -91,8 +91,8 @@ function handleOrientation(event) {
   smoothAx.update(event.acceleration.x);
 
   accellSeries1.append(now, event.acceleration.x);
-  accellSeries2.append(now, smoothAx.filtered);
-  // accellSeries2.append(now, event.acceleration.y);
+  //accellSeries2.append(now, smoothAx.filtered);
+  accellSeries2.append(now, event.acceleration.y);
   accellSeries3.append(now, event.acceleration.z);
 
   
