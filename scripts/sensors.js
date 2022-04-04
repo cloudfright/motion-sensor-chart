@@ -113,11 +113,11 @@ function updateState(event) {
 
       if (Math.abs(event.acceleration.z) > AccelerationThreshold) {
 
-        if(currentDirection == Direction.Forwards && event.acceleration.z < 0) {
+        if(currentDirection == Direction.Forwards && event.acceleration.z > 0) {
           accelerationState = AccelerationStates.Decelerate;
           console.log(event.acceleration.z,'ACCELERATE -> DECELERATE');
         }  
-        else if(currentDirection == Direction.Backwards && event.acceleration.z > 0) {
+        else if(currentDirection == Direction.Backwards && event.acceleration.z < 0) {
           accelerationState = AccelerationStates.Decelerate;
           console.log(event.acceleration.z,'ACCELERATE -> DECELERATE');
         }
