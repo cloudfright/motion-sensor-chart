@@ -102,7 +102,7 @@ console.log(Math.abs(event.acceleration.z), accelerationState);
   switch (accelerationState) {
 
     case AccelerationStates.Stationary: 
-      if (Math.abs(event.acceleration.z > AccelerationThreshold)) {
+      if (Math.abs(event.acceleration.z) > AccelerationThreshold) {
         currentDirection = event.acceleration.z < 0 ? Direction.Forwards : Direction.Backwards; 
         accelerationState = AccelerationStates.Accelerate;  
         console.log(event.acceleration.z, 'STATIONARY -> ACCELERATE', currentDirection);
@@ -111,7 +111,7 @@ console.log(Math.abs(event.acceleration.z), accelerationState);
 
     case AccelerationStates.Accelerate: 
 
-      if (Math.abs(event.acceleration.z > AccelerationThreshold)) {
+      if (Math.abs(event.acceleration.z) > AccelerationThreshold) {
 
         if(currentDirection == Direction.Forwards && event.acceleration.z < 0) {
           accelerationState = AccelerationStates.Decelerate;
@@ -121,7 +121,7 @@ console.log(Math.abs(event.acceleration.z), accelerationState);
     break;
 
     case AccelerationStates.Decelerate: 
-      if (Math.abs(event.acceleration.z < AccelerationThreshold)) {
+      if (Math.abs(event.acceleration.z) < AccelerationThreshold) {
         accelerationState = AccelerationStates.Stationary;
         console.log(event.acceleration.z,'DECELERATE -> STATIONARY');
       }
