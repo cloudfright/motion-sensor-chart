@@ -5,7 +5,7 @@ const AccelerationStates = {
     Decelerate: 'Decelerate'
   };
 
-const AccelerationThreshold = 1;
+const AccelerationThreshold = 1.0;
  
 const Direction = {
   Undefined: 'Undefined',
@@ -94,7 +94,7 @@ function handleMotion(event) {
 
 function updateState(event) {
   
-console.log(event.acceleration.z, accelerationState);
+console.log(event.acceleration.z, Math.abs(event.acceleration.z), accelerationState);
 
   switch (accelerationState) {
 
