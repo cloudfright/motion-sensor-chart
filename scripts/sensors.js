@@ -17,6 +17,9 @@ var accelerationState = AccelerationStates.Stationary;
 var currentDirection = Direction.Undefined;
 
 
+
+
+
 // ---------------
 
 var rotationRateSeries1 = new TimeSeries();
@@ -94,7 +97,7 @@ function handleMotion(event) {
 
 function updateState(event) {
   
-console.log(event.acceleration.z, Math.abs(event.acceleration.z), accelerationState);
+console.log(Math.abs(event.acceleration.z), accelerationState);
 
   switch (accelerationState) {
 
