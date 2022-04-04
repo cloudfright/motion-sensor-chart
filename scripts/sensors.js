@@ -97,11 +97,12 @@ function updateState(event) {
 console.log(accelerationState);
 
   switch (accelerationState) {
+    
     case AccelerationStates.Stationary: 
       if (Math.abs(event.acceleration.z > AccelerationThreshold)) {
         currentDirection = event.acceleration.z < 0 ? Direction.Forwards : Direction.Backwards; 
         accelerationState = AccelerationStates.Accelerate; 
-        console.log('STATIONARY -> ACCELERATE', currentDirection);
+        console.log(event.acceleration.z, 'STATIONARY -> ACCELERATE', currentDirection);
       }
     break;
 
