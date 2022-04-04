@@ -94,7 +94,7 @@ function handleMotion(event) {
 
 function updateState(event) {
   
-console.log(accelerationState);
+console.log(event.acceleration.z, accelerationState);
 
   switch (accelerationState) {
 
