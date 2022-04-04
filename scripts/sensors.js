@@ -97,7 +97,7 @@ function handleMotion(event) {
 
 function updateState(event) {
   
-console.log(Math.abs(event.acceleration.z), accelerationState);
+//console.log(Math.abs(event.acceleration.z), accelerationState);
 
   switch (accelerationState) {
 
@@ -117,6 +117,10 @@ console.log(Math.abs(event.acceleration.z), accelerationState);
           accelerationState = AccelerationStates.Decelerate;
           console.log(event.acceleration.z,'ACCELERATE -> DECELERATE');
         }  
+        else if(currentDirection == Direction.Backwards && event.acceleration.z > 0) {
+          accelerationState = AccelerationStates.Decelerate;
+          console.log(event.acceleration.z,'ACCELERATE -> DECELERATE');
+        }
       }
     break;
 
