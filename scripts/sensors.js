@@ -114,7 +114,7 @@ function updateState(event) {
 
     case AccelerationStates.Accelerate:
 
-      if (Math.abs(event.acceleration.z) < AccelerationThreshold) {
+      if (Math.abs(event.acceleration.z) > AccelerationThreshold) {
 
         if (currentDirection == Direction.Forwards && event.acceleration.z > 0) {
           accelerationState = AccelerationStates.Decelerate;
