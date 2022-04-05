@@ -1,12 +1,14 @@
 
 const AccelerationStates = {
-    Stationary: 'Stationary',
-    Accelerate: 'Accelerate',
-    Decelerate: 'Decelerate'
-  };
+  Stationary: 'Stationary',
+  Accelerate: 'Accelerate',
+  Decelerate: 'Decelerate'
+};
 
 const AccelerationThreshold = 1.0;
- 
+const AccelerationThresholdCount = 3;
+
+
 const Direction = {
   Undefined: 'Undefined',
   Forwards: 'Forwards',
@@ -15,6 +17,7 @@ const Direction = {
 
 var accelerationState = AccelerationStates.Stationary;
 var currentDirection = Direction.Undefined;
+var thresholdCount = 0;
 
 
 
@@ -92,42 +95,44 @@ function handleMotion(event) {
   orientationSeries3.append(now, event.accelerationIncludingGravity.z - event.acceleration.z);
 
   updateState(event);
-  
+
 }
 
 function updateState(event) {
-  
-//console.log(Math.abs(event.acceleration.z), accelerationState);
+
+  //console.log(Math.abs(event.acceleration.z), accelerationState);
 
   switch (accelerationState) {
 
-    case AccelerationStates.Stationary: 
+    case AccelerationStates.Stationary:
       if (Math.abs(event.acceleration.z) > AccelerationThreshold) {
-        currentDirection = event.acceleration.z < 0 ? Direction.Forwards : Direction.Backwards; 
-        accelerationState = AccelerationStates.Accelerate;  
+        currentDirection = event.acceleration.z < 0 ? Direction.Forwards : Direction.Backwards;
+        accelerationState = AccelerationStates.Accelerate;
         console.log(event.acceleration.z, 'STATIONARY -> ACCELERATE', currentDirection);
       }
-    break;
+      break;
 
-    case AccelerationStates.Accelerate: 
+    case AccelerationStates.Accelerate:
 
-      if (Math.abs(event.acceleration.z) > AccelerationThreshold) {
+      if (Math.abs(event.acceleration.z) < AccelerationThreshold) {
 
-        if(currentDirection == Direction.Forwards && event.acceleration.z > 0) {
+        if (currentDirection == Direction.Forwards && event.acceleration.z > 0) {
           accelerationState = AccelerationStates.Decelerate;
-          console.log(event.acceleration.z,'ACCELERATE -> DECELERATE');
-        }  
-        else if(currentDirection == Direction.Backwards && event.acceleration.z < 0) {
+          console.log(event.acceleration.z, 'ACCELERATE -> DECELERATE');
+        }
+        else if (currentDirection == Direction.Backwards && event.acceleration.z < 0) {
           accelerationState = AccelerationStates.Decelerate;
-          console.log(event.acceleration.z,'ACCELERATE -> DECELERATE');
+          console.log(event.acceleration.z, 'ACCELERATE -> DECELERATE');
         }
       }
-    break;
+      break;
 
-    case AccelerationStates.Decelerate: 
-      if (Math.abs(event.acceleration.z) < AccelerationThreshold) {
+    case AccelerationStates.Decelerate:
+
+      if ((Math.abs(event.acceleration.z) > AccelerationThreshold) && (++thresholdCount == AccelerationThresholdCount)) {
         accelerationState = AccelerationStates.Stationary;
-        console.log(event.acceleration.z,'DECELERATE -> STATIONARY');
+        thresholdCount = 0;
+        console.log(event.acceleration.z, 'DECELERATE -> STATIONARY');
       }
       break;
   }
