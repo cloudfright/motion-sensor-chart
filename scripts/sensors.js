@@ -5,7 +5,7 @@ const AccelerationStates = {
   Decelerate: 'Decelerate'
 };
 
-const AccelerationThreshold = 1.0;
+const AccelerationThreshold = 1;
 const AccelerationMax = AccelerationThreshold * 2;
 const AccelerationThresholdCount = 3;
 
@@ -110,7 +110,7 @@ function updateState(event) {
   switch (accelerationState) {
 
     case AccelerationStates.Stationary:
-      if (newValue == Math.abs(AccelerationMax)) {
+      if (Math.abs(newValue) == AccelerationMax) {
         currentDirection = newValue < 0 ? Direction.Forwards : Direction.Backwards;
         accelerationState = AccelerationStates.Accelerate;
         console.log(event.acceleration.z, 'STATIONARY -> ACCELERATE', currentDirection);
@@ -119,7 +119,7 @@ function updateState(event) {
 
     case AccelerationStates.Accelerate:
 
-      if (newValue == Math.abs(AccelerationMax)) {
+      if (Math.abs(newValue) == AccelerationMax) {
 
         if (currentDirection == Direction.Forwards && newValue > 0) {
           accelerationState = AccelerationStates.Decelerate;
