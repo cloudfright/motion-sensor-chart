@@ -6,6 +6,7 @@ const AccelerationStates = {
 };
 
 const AccelerationThreshold = 1.0;
+const AccelerationMax = AccelerationThreshold * 2;
 const AccelerationThresholdCount = 3;
 
 
@@ -17,11 +18,6 @@ const Direction = {
 
 var accelerationState = AccelerationStates.Stationary;
 var currentDirection = Direction.Undefined;
-var thresholdCount = 0;
-
-
-
-
 
 // ---------------
 
@@ -100,8 +96,51 @@ function handleMotion(event) {
 
 function updateState(event) {
 
-  //console.log(Math.abs(event.acceleration.z), accelerationState);
+  var newValue = event.acceleration.z;
+  // implement a crude schmitt trigger
+  if (Math.abs(newValue) >= AccelerationThreshold) {
+    newValue = newValue >= 0 ? AccelerationMax : -AccelerationMax;
+  }
+  else {
+    newValue = 0;
+  }
 
+  console.log(newValue);
+
+  switch (accelerationState) {
+
+    case AccelerationStates.Stationary:
+      if (newValue == Math.abs(AccelerationMax)) {
+        currentDirection = newValue < 0 ? Direction.Forwards : Direction.Backwards;
+        accelerationState = AccelerationStates.Accelerate;
+        console.log(event.acceleration.z, 'STATIONARY -> ACCELERATE', currentDirection);
+      }
+      break;
+
+    case AccelerationStates.Accelerate:
+
+      if (newValue == Math.abs(AccelerationMax)) {
+
+        if (currentDirection == Direction.Forwards && newValue > 0) {
+          accelerationState = AccelerationStates.Decelerate;
+          console.log(event.acceleration.z, 'ACCELERATE -> DECELERATE');
+        }
+        else if (currentDirection == Direction.Backwards && newValue < 0) {
+          accelerationState = AccelerationStates.Decelerate;
+          console.log(event.acceleration.z, 'ACCELERATE -> DECELERATE');
+        }
+      }
+      break;
+
+    case AccelerationStates.Decelerate:
+
+      if (newValue == 0) {
+        accelerationState = AccelerationStates.Stationary;
+        console.log(event.acceleration.z, 'DECELERATE -> STATIONARY');
+      }
+      break;
+  }
+/*
   switch (accelerationState) {
 
     case AccelerationStates.Stationary:
@@ -136,5 +175,5 @@ function updateState(event) {
         console.log(event.acceleration.z, 'DECELERATE -> STATIONARY');
       }
       break;
-  }
+  */
 }
