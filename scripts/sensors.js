@@ -129,6 +129,7 @@ function updateState(event) {
 
     case AccelerationStates.Decelerate:
 
+      console.log(thresholdCount);
       if ((Math.abs(event.acceleration.z) > AccelerationThreshold) && (++thresholdCount == AccelerationThresholdCount)) {
         accelerationState = AccelerationStates.Stationary;
         thresholdCount = 0;
