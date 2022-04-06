@@ -6,6 +6,7 @@ const AccelerationStates = {
 };
 
 const AccelerationThreshold = 1;
+const DecelerationThreshold = AccelerationThreshold / 3;
 const AccelerationMax = AccelerationThreshold * 2;
 const AccelerationThresholdCount = 3;
 
@@ -73,8 +74,6 @@ function requestPermission() {
   }
 }
 
-
-
 function handleMotion(event) {
 
   var now = Date.now();
@@ -98,18 +97,21 @@ function updateState(event) {
 
   var newValue = event.acceleration.z;
   // implement a crude schmitt trigger
-  if (Math.abs(newValue) >= AccelerationThreshold) {
-    newValue = newValue >= 0 ? AccelerationMax : -AccelerationMax;
-  }
-  else {
-    newValue = 0;
-  }
+ 
 
   console.log(newValue);
 
   switch (accelerationState) {
 
     case AccelerationStates.Stationary:
+
+      if (Math.abs(newValue) >= AccelerationThreshold) {
+        newValue = newValue >= 0 ? AccelerationMax : -AccelerationMax;
+      }
+      else {
+        newValue = 0;
+      }
+
       if (Math.abs(newValue) == AccelerationMax) {
         currentDirection = newValue < 0 ? Direction.Forwards : Direction.Backwards;
         accelerationState = AccelerationStates.Accelerate;
@@ -119,8 +121,13 @@ function updateState(event) {
 
     case AccelerationStates.Accelerate:
 
+      if (Math.abs(newValue) >= DecelerationThreshold) {
+        newValue = newValue >= 0 ? AccelerationMax : -AccelerationMax;
+      }
+      else {
+        newValue = 0;
+      }
       if (Math.abs(newValue) == AccelerationMax) {
-
         if (currentDirection == Direction.Forwards && newValue > 0) {
           accelerationState = AccelerationStates.Decelerate;
           console.log(event.acceleration.z, 'ACCELERATE -> DECELERATE');
@@ -134,46 +141,17 @@ function updateState(event) {
 
     case AccelerationStates.Decelerate:
 
+      if (Math.abs(newValue) >= DecelerationThreshold) {
+        newValue = newValue >= 0 ? AccelerationMax : -AccelerationMax;
+      }
+      else {
+        newValue = 0;
+      }
+
       if (newValue == 0) {
         accelerationState = AccelerationStates.Stationary;
         console.log(event.acceleration.z, 'DECELERATE -> STATIONARY');
       }
       break;
   }
-/*
-  switch (accelerationState) {
-
-    case AccelerationStates.Stationary:
-      if (Math.abs(event.acceleration.z) > AccelerationThreshold) {
-        currentDirection = event.acceleration.z < 0 ? Direction.Forwards : Direction.Backwards;
-        accelerationState = AccelerationStates.Accelerate;
-        console.log(event.acceleration.z, 'STATIONARY -> ACCELERATE', currentDirection);
-      }
-      break;
-
-    case AccelerationStates.Accelerate:
-
-      if (Math.abs(event.acceleration.z) > AccelerationThreshold) {
-
-        if (currentDirection == Direction.Forwards && event.acceleration.z > 0) {
-          accelerationState = AccelerationStates.Decelerate;
-          console.log(event.acceleration.z, 'ACCELERATE -> DECELERATE');
-        }
-        else if (currentDirection == Direction.Backwards && event.acceleration.z < 0) {
-          accelerationState = AccelerationStates.Decelerate;
-          console.log(event.acceleration.z, 'ACCELERATE -> DECELERATE');
-        }
-      }
-      break;
-
-    case AccelerationStates.Decelerate:
-
-      console.log(thresholdCount);
-      if ((Math.abs(event.acceleration.z) < AccelerationThreshold) && (++thresholdCount == AccelerationThresholdCount)) {
-        accelerationState = AccelerationStates.Stationary;
-        thresholdCount = 0;
-        console.log(event.acceleration.z, 'DECELERATE -> STATIONARY');
-      }
-      break;
-  */
 }
