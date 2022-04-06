@@ -99,7 +99,7 @@ function updateState(event) {
   // implement a crude schmitt trigger
  
 
-  console.log(newValue);
+  //console.log(newValue);
 
   switch (accelerationState) {
 
