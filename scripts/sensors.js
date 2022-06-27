@@ -48,7 +48,7 @@ function createTimeline() {
   accelerationChart.addTimeSeries(accelerationSeries3, { strokeStyle: 'rgba(0, 0, 255, 1)', fillStyle: 'rgba(0, 0, 255, 0.2)', lineWidth: 3 });
   accelerationChart.streamTo(document.getElementById("acceleration-chart"), 500);
 
-  var orientationChart = new SmoothieChart({ responsive: true, scrollBackwards: false }, {maxValue:9.81,minValue:-9.81});
+  var orientationChart = new SmoothieChart({ maxValue: 9.81, minValue: -9.81, responsive: true, scrollBackwards: false });
   orientationChart.addTimeSeries(orientationSeries1, { strokeStyle: 'rgba(255, 0, 0, 1)', fillStyle: 'rgba(255, 0, 0, 0.2)', lineWidth: 3 });
   orientationChart.addTimeSeries(orientationSeries2, { strokeStyle: 'rgba(0, 255, 0, 1)', fillStyle: 'rgba(0, 255, 0, 0.2)', lineWidth: 3 });
   orientationChart.addTimeSeries(orientationSeries3, { strokeStyle: 'rgba(0, 0, 255, 1)', fillStyle: 'rgba(0, 0, 255, 0.2)', lineWidth: 3 });
@@ -57,6 +57,7 @@ function createTimeline() {
 }
 
 function requestPermission() {
+
   if (typeof DeviceMotionEvent.requestPermission === 'function') {
     // Handle iOS 13+ devices.
     DeviceMotionEvent.requestPermission()
