@@ -22,6 +22,35 @@ var currentDirection = Direction.Undefined;
 
 // ---------------
 
+class ExponentialMovingAverage {
+	constructor(alpha, mean) {
+		this.alpha = alpha;
+		this.mean = !mean ? 0 : mean;
+	}
+
+	get beta() {
+		return 1 - this.alpha;
+	}
+
+  get filtered() {
+		return this.mean;
+	}
+
+	update(newValue) {
+		const redistributedMean = this.beta * this.mean;
+		const meanIncrement = this.alpha * newValue;
+		const newMean = redistributedMean + meanIncrement;
+		this.mean = newMean;
+	}
+}
+
+let smoothAx =  new ExponentialMovingAverage(0.7);
+let smoothAy =  new ExponentialMovingAverage(0.7);
+let smoothAz =  new ExponentialMovingAverage(0.7);
+
+// ---------------
+
+
 var rotationRateSeries1 = new TimeSeries();
 var rotationRateSeries2 = new TimeSeries();
 var rotationRateSeries3 = new TimeSeries();
@@ -78,13 +107,23 @@ function requestPermission() {
 function handleMotion(event) {
 
   var now = Date.now();
+
+  smoothAx.update(event.acceleration.x);
+  smoothAy.update(event.acceleration.y);
+  smoothAz.update(event.acceleration.z);
+
   rotationRateSeries1.append(now, event.rotationRate.alpha);
   rotationRateSeries2.append(now, event.rotationRate.beta);
   rotationRateSeries3.append(now, event.rotationRate.gamma);
 
+  accelerationSeries1.append(now, smoothAx.filtered);
+  accelerationSeries2.append(now, smoothAy.filtered);
+  accelerationSeries3.append(now, smoothAz.filtered);
+  /*
   accelerationSeries1.append(now, event.acceleration.x);
   accelerationSeries2.append(now, event.acceleration.y);
   accelerationSeries3.append(now, event.acceleration.z);
+*/
 
   orientationSeries1.append(now, event.accelerationIncludingGravity.x - event.acceleration.x);
   orientationSeries2.append(now, event.accelerationIncludingGravity.y - event.acceleration.y);
